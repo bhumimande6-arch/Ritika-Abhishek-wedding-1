@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ritika & Abhishek — Wedding Invitation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --crimson: #7a1c1c;
+      --crimson-dark: #4f1010;
+      --gold: #c6923a;
+      --gold-light: #f3e5c8;
+      --cream: #fcf8f2;
+      --card-bg: #ffffff;
+      --text-main: #2d1e1b;
+      --text-muted: #6b534c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--cream); color: var(--text-main); line-height: 1.65; }
+    h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
+    
+    /* Envelope Overlay */
+    #envelope-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--crimson-dark), var(--crimson));
+      z-index: 9999; display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    .envelope-card {
+      background: var(--cream); padding: 3rem 2rem; border-radius: 16px;
+      text-align: center; max-width: 420px; width: 90%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3); border: 2px solid var(--gold);
+    }
+    .envelope-card h2 { color: var(--crimson); font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .envelope-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem; }
+    .open-btn {
+      background: var(--gold); color: #fff; border: none; padding: 0.8rem 2rem;
+      font-size: 1rem; font-weight: 600; border-radius: 999px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(198,146,58,0.4); transition: transform 0.2s;
+    }
+    .open-btn:hover { transform: scale(1.05); }
+
+    .top-bar { height: 6px; background: linear-gradient(90deg, var(--crimson), var(--gold), var(--crimson)); }
+    .music-float {
+      position: fixed; bottom: 22px; right: 22px; z-index: 999; display: flex; align-items: center; gap: 0.55rem;
+      background: var(--crimson-dark); color: #fff; border: 1.5px solid var(--gold); border-radius: 999px;
+      padding: 0.65rem 1.2rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      box-shadow: 0 10px 26px rgba(45, 30, 27, 0.28);
+    }
+
+    .hero {
+      position: relative; min-height: 92vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 3rem 1.5rem; background: radial-gradient(circle at top, rgba(198,146,58,0.14), transparent 60%), linear-gradient(180deg, #fffaf3 0%, var(--cream) 100%);
+    }
+    .ganpati-symbol { font-size: 2.2rem; color: var(--crimson); margin-bottom: 0.35rem; }
+    .shloka { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600; color: var(--crimson); }
+    .couple-names { font-size: clamp(2.8rem, 7vw, 5.2rem); font-weight: 700; color: var(--crimson-dark); margin: 1rem 0; }
+    .couple-names span { color: var(--gold); font-style: italic; }
+
+    section { max-width: 1040px; margin: 0 auto; padding: 4.5rem 1.5rem; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-header h2 { font-size: 2.8rem; color: var(--crimson-dark); }
+    
+    .invite-card, .venue-box, .event-card {
+      background: var(--card-bg); border: 1px solid rgba(198,146,58,0.4); border-radius: 20px; padding: 2.5rem 2rem;
+      box-shadow: 0 12px 35px rgba(45,30,27,0.05); margin-bottom: 2rem; text-align: center;
+    }
+    .families-grid, .events-grid, .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
+    .family-box { padding: 1.5rem; background: var(--cream); border-radius: 12px; border: 1px solid rgba(198,146,58,0.3); }
+    .photo-frame { border-radius: 16px; overflow: hidden; aspect-ratio: 4/5; box-shadow: 0 10px 26px rgba(45,30,27,0.1); }
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+    footer { background: var(--crimson-dark); color: #f8ede3; text-align: center; padding: 3rem 1.5rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Envelope Opening Intro -->
+  <div id="envelope-overlay">
+    <div class="envelope-card">
+      <div style="font-size: 2.5rem; color: var(--gold); margin-bottom: 0.5rem;">💌</div>
+      <h2>Wedding Invitation</h2>
+      <p>Ritika & Abhishek<br>14 December 2026</p>
+      <button class="open-btn" onclick="openInvitation()">Open Invitation</button>
+    </div>
+  </div>
+
+  <div class="top-bar"></div>
+
+  <audio id="bg-music" loop preload="auto">
+    <source src="https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg" type="audio/ogg" />
+  </audio>
+
+  <button id="music-toggle" class="music-float" onclick="toggleMusic()">
+    🎵 <span id="music-label">Play Music</span>
+  </button>
+
+  <header class="hero">
+    <div class="ganpati-symbol">॥ श्री गणेशाय नमः ॥</div>
+    <div class="shloka">वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ । निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥</div>
+    <h1 class="couple-names">Ritika <span>&</span> Abhishek</h1>
+    <p>Monday, 14 December 2026 • Kalyan (East)</p>
+  </header>
+
+  <section>
+    <div class="section-header"><h2>Family & Invitation</h2></div>
+    <div class="invite-card">
+      <p>We cordially invite you to celebrate the auspicious wedding ceremony of Ritika & Abhishek.</p>
+      <div class="families-grid">
+        <div class="family-box">
+          <h3 style="color:var(--crimson);">The Bride</h3>
+          <p><strong>Ritika Sandeep Mande</strong><br>Daughter of Shri Sandeep & Mrs. Pooja Mande</p>
+        </div>
+        <div class="family-box">
+          <h3 style="color:var(--crimson);">The Groom</h3>
+          <p><strong>Abhishek Prakash Nirmal</strong><br>Son of Shri Prakash & Mrs. Poornima Nirmal</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-header"><h2>Wedding Events</h2></div>
+    <div class="events-grid">
+      <div class="event-card">
+        <h3>Haldi Ceremony</h3>
+        <p><strong>Date:</strong> 14 Dec 2026 | 8:00 AM – 9:00 AM</p>
+        <p>Hotel Kashish International, Kalyan (E)</p>
+      </div>
+      <div class="event-card">
+        <h3>Wedding Ceremony</h3>
+        <p><strong>Date:</strong> 14 Dec 2026 | Muhurat: 12:21 PM</p>
+        <p>Hotel Kashish International, Kalyan (E)</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-header"><h2>Photo Gallery</h2></div>
+    <div class="gallery-grid">
+      <div class="photo-frame"><img src="photo1.jpg" alt="Photo 1"></div>
+      <div class="photo-frame"><img src="photo2.jpg" alt="Photo 2"></div>
+      <div class="photo-frame"><img src="photo3.jpg" alt="Photo 3"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="venue-box">
+      <h2>Hotel Kashish International</h2>
+      <p>Malgad Road, Near Anmol Garden, Nandivali Village, Kalyan (East) 421306</p>
+      <iframe width="100%" height="280" style="border:0; border-radius:12px; margin-top:1rem;" loading="lazy" src="https://www.google.com/maps?q=Hotel+Kashish+International+Kalyan+East+421306&output=embed"></iframe>
+    </div>
+  </section>
+
+  <footer>
+    <h3 style="font-family:'Cormorant Garamond'; font-size:2rem; color:var(--gold-light);">Ritika & Abhishek</h3>
+    <p>We look forward to celebrating with you!</p>
+  </footer>
+
+  <script>
+    const music = document.getElementById("bg-music");
+    const musicLabel = document.getElementById("music-label");
+    let isPlaying = false;
+
+    function openInvitation() {
+      const overlay = document.getElementById("envelope-overlay");
+      overlay.style.opacity = "0";
+      setTimeout(() => overlay.style.display = "none", 600);
+      music.play().then(() => {
+        isPlaying = true;
+        musicLabel.textContent = "Pause Music";
+      }).catch(() => {});
+    }
+
+    function toggleMusic() {
+      if (isPlaying) {
+        music.pause();
+        isPlaying = false;
+        musicLabel.textContent = "Play Music";
+      } else {
+        music.play().then(() => {
+          isPlaying = true;
+          musicLabel.textContent = "Pause Music";
+        });
+      }
+    }
+  </script>
+</body>
+</html>
